@@ -3,7 +3,8 @@ require 'pry'
 require 'money'
 
 require_relative './graph'
-require_relative './expenses'
+require_relative './expenses/expense'
+require_relative './expenses/group'
 
 Money.default_currency = Money::Currency.new("EUR")
 I18n.enforce_available_locales = false
@@ -32,7 +33,7 @@ class ExpensesLoader
 
         validate_category!(date, category)
 
-        Expense.new(
+        Expenses::Expense.new(
           date: date,
           description: row[1],
           amount: row[2],
@@ -55,10 +56,10 @@ class App
       expenses.concat ExpensesLoader.new(file: file).call
     end
 
-    expenses_group = ExpensesGroup.new
+    expenses_group = Expenses::Group.new
     expenses_group.add_many(expenses)
 
-    graph = ExpensesGraph.new(expenses_group)
+    graph = Graph.new(expenses_group)
 
     query.split(",").map do |filter|
       if filter.include?("=")
@@ -72,4 +73,3 @@ class App
     graph.render(options)
   end
 end
-
