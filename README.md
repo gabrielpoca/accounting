@@ -45,7 +45,7 @@ instance, to see how much I spent each month in groceries I can run the
 following command:
 
 ```
-exe/accounting explore month,category=GROCERIES
+exe/accounting explore month,category=groceries
 ```
 
 The available attributes are:
@@ -53,6 +53,12 @@ The available attributes are:
 - month
 - category
 - weekday
+
+To see which expenses are behind a value use `-d` to get more details:
+
+```
+exe/accounting explore month,category=groceries -d
+```
 
 ## Development
 

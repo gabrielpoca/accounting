@@ -8,7 +8,18 @@ require_relative './expenses'
 Money.default_currency = Money::Currency.new("EUR")
 I18n.enforce_available_locales = false
 
-class ExpensesParser
+class CategoryValidtor
+  @@valid_categories = [
+    'ignore', 'groceries', 'other', 'game', 'vacations', 'home_expenses', 'out',
+    'rent', 'gym', 'farmacy', 'gas', 'tool', 'cleaning_lady', 'other_income', 'gift', 'conference'
+  ]
+
+  def self.valid?(category)
+    @@valid_categories.include?(category)
+  end
+end
+
+class ExpensesLoader
   def initialize(file:)
     @file = file
   end
@@ -16,25 +27,36 @@ class ExpensesParser
   def call
     @expenses = CSV.read(@file, { headers: true, return_headers: false })
       .map do|row|
+        category = row[3].strip!
+        date = row[0]
+
+        validate_category!(date, category)
+
         Expense.new(
-          date: row[0],
+          date: date,
           description: row[1],
           amount: row[2],
-          category: row[3]
+          category: category
         )
       end
       .reject { |expense| expense.category == 'IGNORE' }
   end
+
+  private
+
+  def validate_category!(date, category)
+    throw StandardError.new("Invalid category #{category} in #{date}")  if !CategoryValidtor.valid?(category)
+  end
 end
 
 class App
-  def self.explore(query)
-    all_expenses = ExpensesParser.new(file: "./priv/agosto.csv").call
-    all_expenses.concat ExpensesParser.new(file: "./priv/julho.csv").call
-    all_expenses.concat ExpensesParser.new(file: "./priv/junho.csv").call
+  def self.explore(query, options = {})
+    expenses = Dir.glob("./priv/*.csv").each_with_object([]) do |file, expenses|
+      expenses.concat ExpensesLoader.new(file: file).call
+    end
 
     expenses_group = ExpensesGroup.new
-    expenses_group.add_many(all_expenses)
+    expenses_group.add_many(expenses)
 
     graph = ExpensesGraph.new(expenses_group)
 
@@ -47,7 +69,7 @@ class App
       end
     end
 
-    graph.render
+    graph.render(options)
   end
 end
 

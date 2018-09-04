@@ -12,7 +12,7 @@ module Accounting
       end
 
       def execute(input: $stdin, output: $stdout)
-        output.puts App.explore(@query)
+        output.puts App.explore(@query, @options)
       end
     end
   end

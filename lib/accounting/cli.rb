@@ -21,6 +21,8 @@ module Accounting
     desc 'explore [QUERY]', 'Command description...'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
+    method_option :details, aliases: '-d', type: :boolean,
+                         desc: 'Display more information about the expenses'
     def explore(query = "month")
       if options[:help]
         invoke :help, ['explore']

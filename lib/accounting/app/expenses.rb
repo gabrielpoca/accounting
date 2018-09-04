@@ -8,9 +8,9 @@ class Expense
 
   def initialize(date:,description:,amount:,category:)
     @date = Date.strptime(date, '%d-%m-%Y')
-    @description = description.strip!
+    @description = description
     @amount = Monetize.parse(amount)
-    @category = category.strip!
+    @category = category
   end
 
   def month
@@ -18,7 +18,7 @@ class Expense
   end
 
   def weekday
-    @date.strftime('%A')
+    @date.strftime('%A').downcase
   end
 end
 
