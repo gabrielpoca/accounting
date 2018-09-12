@@ -52,7 +52,9 @@ end
 
 class App
   def self.explore(query, options = {})
-    expenses = Dir.glob("./priv/*.csv").each_with_object([]) do |file, expenses|
+    files = Dir.glob(options[:files_pattern] || "./spec/fixture/*.csv")
+
+    expenses = files.each_with_object([]) do |file, expenses|
       expenses.concat ExpensesLoader.new(file: file).call
     end
 
