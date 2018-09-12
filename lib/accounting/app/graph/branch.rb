@@ -33,8 +33,9 @@ class Graph
         if node.is_a?(Leaf)
           node.render(label: value, details: details, pastel: pastel)
         else
+          header = level > 2 ? value : pastel.bold(value)
           renders = node.render(level: level + 1, details: details, pastel: pastel)
-          renders.map { |r| "\t" * level + r }.unshift("#{pastel.bold(value)} =>\n")
+          renders.map { |r| " " * level + r }.unshift(header + "\n")
         end
       end.flatten
     end

@@ -23,11 +23,11 @@ class Graph
     end
 
     def render(label:,details:,pastel:)
-      res = ["#{pastel.bold(label)} => #{pastel.money(total.format)}"]
+      res = ["#{label} \u2192 #{pastel.money(total.format)}"]
 
       if details
         res.concat(expenses.map do |expense|
-          "\t#{expense.date} #{pastel.money(expense.amount.format)} => #{expense.description}"
+          " #{expense.date} #{pastel.money(expense.amount.format)} \u2192 #{pastel.white(expense.description)}"
         end)
       end
 
