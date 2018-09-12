@@ -40,7 +40,7 @@ class ExpensesLoader
           category: category
         )
       end
-      .reject { |expense| expense.category == 'IGNORE' }
+      .reject { |expense| expense.category == 'ignore' }
   end
 
   private
