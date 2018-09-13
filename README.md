@@ -3,9 +3,13 @@
 This is a CLI utility that I use to explore my finances. I can drill down on my
 expenses using simple commands.
 
+[![asciicast](https://asciinema.org/a/tTk5tqtMxoZSv6EvTW1ZP9jeX.png)](https://asciinema.org/a/tTk5tqtMxoZSv6EvTW1ZP9jeX)
+
 ## Installation
 
-    $ gem install accounting
+```
+bin/setup
+```
 
 ## Usage
 
@@ -54,10 +58,18 @@ The available attributes are:
 - category
 - weekday
 
-To see which expenses are behind a value use `-d` to get more details:
+#### Options
+
+Use `-d` to see which expenses add up to a value:
 
 ```
 exe/accounting explore month,category=groceries -d
+```
+
+use `-f` to choose which CSV files to load
+
+```
+exe/accounting explore -f="./priv/*.csv" month,category=groceries
 ```
 
 ## Development
@@ -65,12 +77,6 @@ exe/accounting explore month,category=groceries -d
 After checking out the repo, run `bin/setup` to install dependencies. Then, run
 `rake spec` to run the tests. You can also run `bin/console` for an interactive
 prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To
-release a new version, update the version number in `version.rb`, and then run
-`bundle exec rake release`, which will create a git tag for the version, push
-git commits and tags, and push the `.gem` file to
-[rubygems.org](https://rubygems.org).
 
 ## Contributing
 
