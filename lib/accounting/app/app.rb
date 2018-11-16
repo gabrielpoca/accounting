@@ -11,8 +11,8 @@ I18n.enforce_available_locales = false
 
 class CategoryValidtor
   @@valid_categories = [
-    'ignore', 'groceries', 'other', 'game', 'vacations', 'home_expenses', 'out',
-    'rent', 'gym', 'farmacy', 'gas', 'tool', 'cleaning_lady', 'other_income', 'gift', 'conference'
+    'ignore', 'groceries', 'other', 'game', 'vacations', 'home_expenses', 'out', 'fun',
+    'rent', 'gym', 'farmacy', 'gas', 'tool', 'cleaning_lady', 'other_income', 'gift', 'conference', 'health'
   ]
 
   def self.valid?(category)
